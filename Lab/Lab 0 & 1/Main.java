@@ -49,15 +49,17 @@ public class Main{
 		Circle[] created_circles = new Circle [(no_of_points * (no_of_points + 1)) / 2];
 		for (int i = 0; i < no_of_points; i++){
 			for(int j = i + 1; j < no_of_points; j++){
-				Circle current = createCircle(points[i], points[j], points[i].distanceTo(points[j]));
+				Circle current = createCircle(points[i], points[j], 1);
 				created_circles[counter] = current;
 				counter++;
 			}
 		}
-		for (int i = counter - 1; i >= 0; i--){
+		for (int i = 0; i < counter; i++){
 			int current_coverage = 0;
 			for (int j = 0; j < no_of_points; j++){
-				if(created_circles[i].contains(points[j])){
+				if (created_circles[i] == null){
+					
+				}else if(created_circles[i].contains(points[j])){
 					current_coverage++;
 				}
 			}
