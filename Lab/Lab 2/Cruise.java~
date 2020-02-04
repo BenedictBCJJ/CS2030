@@ -1,11 +1,8 @@
-import java.lang.String;
-
-
 public class Cruise {
-	final String identifier;
-	final int arrival;
-	final int loaders;
-	final int serviceTime;
+	final private String identifier;
+	final private int arrival;
+	final private int loaders;
+	final private int serviceTime;
 
 	public Cruise(String identifier, int arrival, int loaders, int serviceTime) {
 		this.identifier = identifier;
@@ -35,4 +32,4 @@ public class Cruise {
 		return arrival_time + serviceTime;
 	}
 }
-
+	
