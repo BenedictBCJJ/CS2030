@@ -1,7 +1,7 @@
 public class Loader {
-    final int id;
-    final int time;
-    final Cruise cruise;
+    protected final int id;
+    protected final int time;
+    protected final Cruise cruise;
 
     public Loader(int id) {
         this.id = id;
