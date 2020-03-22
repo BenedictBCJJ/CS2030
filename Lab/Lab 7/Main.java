@@ -14,62 +14,33 @@ public class Main{
     }
 
     static int gcd(int m, int n) {
-        if(m > n) {
-            return Stream.iterate(new int[]{m,n}, x -> x[1] != 0, x -> new int[]{x[1],x[0] % x[1]})
-                .map(x -> x[1]).reduce((x,y) -> y).get();
-        } else {
-            return Stream.iterate(new int[]{n,m}, x -> x[1] != 0, x -> new int[]{x[1],x[0] % x[1]})
-                .map(x -> x[1]).reduce((x,y) -> y).get();
-
-
-        }
+        return Stream.iterate(new Pair(m,n), x -> x.remainder != 0, 
+                x -> new Pair(x.remainder,x.numerator % x.remainder))
+            .map(x -> x.remainder).reduce((x,y) -> y).get();
     }
 
     static long countRepeats(int... array) {
-        IntStream stream = Arrays.stream(array);
+        final Stream<Count> stream = Arrays.stream(array)
+            .mapToObj(x -> new Count(1, 0, x, 0) );
 
-        int[] arr = new int[] {1, 0};
-
-        stream.reduce((x, y) -> { if(x == y) {
-            arr[0] += 1;
-        } else if (x!=y && arr[0] > 1) {
-            arr[1] += 1;
-            arr[0] = 1;
+        final Count totalRepeats = stream
+            .reduce(new Count(1, 10, 11, 0),
+                    (x, y) -> new Count (x.sequenceLength, x.currentNumber, y.currentNumber, x.totalRepeats));
+        
+        if(totalRepeats.sequenceLength > 1) {
+            return totalRepeats.totalRepeats + 1;
+        } else {
+            return totalRepeats.totalRepeats;
         }
-        return y;});
-
-        if(arr[0] > 1) {
-            arr[1] += 1;
-        }
-
-        return arr[1];
     }
 
     static double normalizedMean(Stream<Integer> stream) {
-        DoubleStream doubleStream = stream.mapToDouble(x->x);
-        double[] arr = new double[]{0, 0.1, 0};
+        final Stream<Mean> meanStream = stream.map(x -> new Mean(Double.NaN, Double.NaN, 0, 0, x));
 
-        double sum = doubleStream.reduce(0,(x, y) ->{
-            arr[0] += 1;
-            if(arr[1] == 0.1) {
-                arr[1] = y;
-            }
-            if(y < arr[1]) {
-                arr[1] = y;
-            }
-            if (y > arr[2]) {
-                arr[2] = y;
-            }
-            return x + y;});
-        
-        if(arr[2] == arr[1] || sum == 0) {
-            return 0;
-        }else{
+        final Mean sum = meanStream.reduce((x, y) -> new Mean(x.max, x.min, x.sum, x.count, y.max))
+            .orElse(new Mean(0,0,0,0,0));
 
-            return ((sum / arr[0]) - arr[1]) / (arr[2] - arr[1]);
-        }
-
-
+        return sum.normal();
     }
 
 

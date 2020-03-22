@@ -1,28 +1,29 @@
-   import java.util.ArrayList;
-   import java.util.List;
-   
-   public class Cluster{
-   final String clusterName;
-   List<Case> cluser = new ArrayList<>();
-   }
-   public class Case{
-   final int id;
-   Case(id){}
-   };
-   
-   public interface Contacts;
-   
-   public class ConfirmedCase extends Case implements Contacts{
-   List<Case> contacts = new ArrayList<>();
-   }
-   
-   public class ImportedCase extends ConfirmedCase{
-   final String country;
-   };
-   
-   public class LocalCase extends ConfirmedCase;
-   
-   
-   public class ContactTypes{
-   private final String type;
-   }
+import java.util.ArrayList;
+import java.util.List;
+
+class Cluster{
+    private String clusterName;
+    List<Case> cluster = new ArrayList<>();
+}
+
+interface AddContactType{
+}
+
+class Case implements AddContactType{
+    private int id;
+    List<Case> contacts;
+    private Contact contactType;
+}
+
+
+class ImportedCase extends Case {
+    private String country;
+}
+
+class LocalCase extends Case {
+}
+
+
+class Contact {
+    private String contactType;
+}
