@@ -31,8 +31,8 @@ public class Main {
         Customer nextCustomer;
         Customer currentCustomer;
 
-        Server server = new Server(0);
         Scanner sc = new Scanner(System.in);
+        EventManager eventManager = new EventManager(sc.nextInt());
         int id = 1;
 
         while (sc.hasNextDouble()) {
@@ -44,15 +44,13 @@ public class Main {
 
         while (QueueManager.hasNextCustomer()) {
             currentCustomer = QueueManager.nextCustomer();
-            System.out.println(EventManager.status(currentCustomer));
-            nextCustomer = EventManager.updateStatus(currentCustomer, server);
-
+            System.out.println(eventManager.status(currentCustomer));
+            nextCustomer = eventManager.updateStatus(currentCustomer);
             if (QueueManager.customerHasNotLeft(nextCustomer)) {
                 QueueManager.add(nextCustomer);
-                server = server.updateState(currentCustomer.time());
             }
         }
 
-        System.out.println(EventManager.finalStatistics());
+        System.out.println(eventManager.finalStatistics());
     }
 }

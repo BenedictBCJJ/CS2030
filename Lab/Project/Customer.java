@@ -9,6 +9,7 @@ public class Customer {
     private final int id;
     private final double activityTime;
     private final Status status;
+    private final int ServerId;
     
     /**
      * Constructs a new customer with allocated id and activityTime. 
@@ -18,9 +19,7 @@ public class Customer {
      * @param activityTime The arrival time of the customer
      * */
     public Customer(int id, double activityTime) {
-        this.id = id;
-        this.activityTime = activityTime;
-        this.status = Status.Arrive;
+        this(id, activityTime, Status.Arrive, 0);
     }
     
     /**
@@ -33,9 +32,14 @@ public class Customer {
      * */
 
     protected Customer(int id, double activityTime, Status status) {
+        this(id, activityTime, status, 0);
+    }
+
+    protected Customer(int id, double activityTime, Status status, int ServerId) {
         this.id = id;
         this.activityTime = activityTime;
         this.status = status;
+        this.ServerId = ServerId;
     }
 
     public double time() {
@@ -48,6 +52,10 @@ public class Customer {
 
     public Status status() {
         return this.status;
+    }
+
+    public int server() {
+        return this.ServerId;
     }
 
 }

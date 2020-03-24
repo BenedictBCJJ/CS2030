@@ -7,14 +7,18 @@
 
 public class Server {
     private final double time;
+    private final int id;
+    private final boolean queueIsFree;
     
     /**
      *Constructs a new Server object where the time 
      *       it will be free to serve is represented by the time value.
      *@param time the time that the server would be free to serve customer
      */
-    public Server(double time) {
+    public Server(int id, double time, boolean queueIsFree) {
+        this.id = id;
         this.time = time;
+        this.queueIsFree = queueIsFree;
     }
     
     /**
@@ -26,16 +30,32 @@ public class Server {
      *          otherwise this server would be returned
      */
     
-    public Server updateState(double customerTime) {
-        if (customerTime >= this.time) {        
-            return new Server(customerTime + 1);
+    public Server updateState(Customer customer) {
+        if (customer.time() >= this.time) {        
+            return new Server(this.id, customer.time() + 1, true);
         } else {
             return this;
         }
     }
 
-    public double get() {
+    public Server setQueueToNotFree() {
+        return new Server(this.id, this.time, false);
+    }
+
+    public Server setQueueToFree() {
+        return new Server(this.id, this.time, true);
+    }
+
+    public double getTime() {
         return this.time;
+    }
+
+    public boolean queueIsFree() {
+        return this.queueIsFree;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
 }
